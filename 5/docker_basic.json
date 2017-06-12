@@ -1,0 +1,7 @@
+{
+  "builders": [{
+    "type": "docker",
+    "image": "ubuntu",
+    "export_path": "docker_basic.tar"
+  }]
+}

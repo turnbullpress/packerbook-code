@@ -1,0 +1,9 @@
+---
+version: 5
+defaults:
+  datadir: '/tmp/hieradata'
+  data_hash: yaml_data
+hierarchy:
+  - name: "Other YAML hierarchy levels"
+    paths:
+      - "common.yaml"

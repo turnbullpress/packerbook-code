@@ -1,0 +1,33 @@
+{
+  "builders": [{
+    "type": "docker",
+    "image": "ubuntu",
+    "commit": true,
+    "changes": [
+      "USER www-data",
+      "WORKDIR /var/www",
+      "EXPOSE 80"
+    ]
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "install.sh"
+    }
+  ],
+  "post-processors": [
+     [
+      {
+        "type": "docker-tag",
+        "repository": "jamtur01/docker_postproc",
+        "tag": "0.1"
+      },
+      {
+        "type": "docker-push",
+        "login": true,
+        "login_username": "jamtur01",
+        "login_password": "averystrongpassword"
+      }
+    ]
+  ]
+}

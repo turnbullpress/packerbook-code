@@ -1,4 +1,8 @@
 {
+  "variables": {
+    "hub_username": "",
+    "hub_password": ""
+  },
   "builders": [{
     "type": "docker",
     "image": "ubuntu",
@@ -25,8 +29,8 @@
       {
         "type": "docker-push",
         "login": true,
-        "login_username": "jamtur01",
-        "login_password": "averystrongpassword"
+        "login_username": "{{user `hub_username`}}",
+        "login_password": "{{user `hub_password`}}"
       }
     ]
   ]

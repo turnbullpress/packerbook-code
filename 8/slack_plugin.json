@@ -11,15 +11,11 @@
     "source_ami": "ami-a025aeb6",
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "shell-prov {{timestamp | clean_ami_name}}"
+    "ami_name": "initial-ami {{timestamp | clean_ami_name}}"
   }],
-   "provisioners": [
-    {
-      "type": "shell",
-      "scripts": [
-        "install.sh",
-        "post-install.sh"
-      ]
-    }
-  ]
+  "post-processors": [{
+    "type": "slack-notifications",
+    "channel": "monitoring",
+    "url": "https://hooks.slack.com/services/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"
+  }]
 }

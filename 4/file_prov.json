@@ -11,7 +11,7 @@
     "source_ami": "ami-a025aeb6",
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "file-prov {{timestamp}}"
+    "ami_name": "file-prov {{timestamp | clean_ami_name}}"
   }],
   "provisioners": [
      {

@@ -11,6 +11,6 @@
     "source_ami": "ami-a025aeb6",
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "initial-ami {{timestamp}}"
+    "ami_name": "initial-ami {{timestamp | clean_ami_name}}"
   }]
 }

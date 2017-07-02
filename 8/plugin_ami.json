@@ -11,15 +11,15 @@
     "source_ami": "ami-a025aeb6",
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "shell-prov {{timestamp | clean_ami_name}}"
-  }],
-   "provisioners": [
-    {
-      "type": "shell",
-      "scripts": [
-        "install.sh",
-        "post-install.sh"
-      ]
+    "ami_name": "initial-ami {{timestamp | clean_ami_name}}",
+    "tags": {
+        "Amazon_AMI_Management_Identifier": "packer-plugin-example"
     }
-  ]
+  }],
+  "post-processors": [{
+    "type": "amazon-ami-management",
+    "region": "us-east-1",
+    "identifier": "packer-plugin-example",
+    "keep_releases": "3"
+  }]
 }

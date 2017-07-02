@@ -1,0 +1,67 @@
+{
+	"variables": {
+		"name": "webimage",
+		"namespace": "jamtur01",
+		"fqdn": "webapp.example.com",
+		"osName": "ubuntu",
+		"osVersion": "17.04",
+		"ami": "ami-a025aeb6",
+		"aws_region": "us-east-1",
+		"aws_access_key": "",
+		"aws_secret_key": ""
+	},
+	"builders": [{
+			"type": "docker",
+			"image": "{{user `osName`}}:{{user `osVersion`}}",
+			"commit": true
+		},
+		{
+			"type": "amazon-ebs",
+			"access_key": "{{user `aws_access_key`}}",
+			"secret_key": "{{user `aws_secret_key`}}",
+			"region": "{{user `aws_region`}}",
+			"source_ami": "{{user `ami`}}",
+			"instance_type": "t2.micro",
+			"ssh_username": "ubuntu",
+			"ami_name": "{{user `fqdn`}}-{{timestamp | clean_ami_name}}",
+			"ami_description": "Web Application Image",
+			"tags": {
+				"name": "{{user `name`}}",
+				"namespace": "{{user `namespace`}}",
+				"fqn": "{{user `fqdn`}}",
+				"os": "{{user `osName`}} {{user `osVersion`}}",
+				"built": "{{isotime}}"
+			}
+		}
+	],
+	"provisioners": [
+    {
+	    "type": "file",
+	    "source": "Gemfile",
+	    "destination": "/tmp/Gemfile"
+    },
+		{
+			"type": "shell",
+			"script": "provision.sh",
+			"override": {
+				"amazon-ebs": {
+					"execute_command": "sudo {{.Path}}"
+				}
+			}
+		}
+	],
+	"post-processors": [
+		[
+		  {
+        "type": "docker-tag",
+				"repository": "{{user `namespace`}}/{{user `name`}}",
+				"tag": "{{user `fqdn`}}",
+				"only": ["docker"]
+      },
+			{
+				"type": "docker-push",
+				"only": ["docker"]
+			}
+		]
+	]
+}
